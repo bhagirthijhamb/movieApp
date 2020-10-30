@@ -4,16 +4,18 @@ import { faFilm } from '@fortawesome/free-solid-svg-icons';
 // import { }
 
 
-const Student = (props) => {
+const Navbar = (props) => {
     return (
         <div className="fixed_container">
             <nav>
-                <button>
-                    <FontAwesomeIcon icon={faFilm} className="movie_icon"/>
-                </button>
+                <div className="wrapper">
+                    <button>
+                        <FontAwesomeIcon icon={faFilm} className="movie_icon"/>
+                    </button>
+                </div>
             </nav>
         </div>
     )
 }
 
-export default Student;
+export default Navbar;

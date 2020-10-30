@@ -1,0 +1,47 @@
+.movieResults_gridContainer {
+    padding: 5rem 0;
+    background-color: #f1fafd;
+    
+    .movieResults_movieList {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        grid-column-gap: 3.5rem;
+        grid-row-gap: 3rem;
+        padding: 1rem 1.5rem 1rem 1.5rem;
+        // background-image: 
+
+        .movieResults_movieCard {
+            border: 2px solid grey;
+            padding: 10px;
+            box-shadow: 14px 14px var(--primaryColor);
+        }
+    }
+
+    
+
+    .movieResults_movieThumbnail {
+    }
+
+    .posterSize {
+        // height: 16rem;
+        width: 100%;
+    }
+
+    .no-poster {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h2 {
+        font-size: 3rem;
+        text-shadow: 6px 6px var(--primaryColor);
+        -webkit-text-fill-color: #fff;
+        -webkit-text-stroke-width: 2px;
+        -webkit-text-stroke-color: #383435;
+    }
+}
+

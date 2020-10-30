@@ -4,6 +4,7 @@ import axios from 'axios';
 // Initial state
 const initialState = {
     movies: [],
+    nominatedMovies: [],
     loading: true
 }
 
@@ -21,17 +22,17 @@ const ACTIONS = {
 const reducer = (state, action) => {
     switch(action.type){
         case ACTIONS.MAKE_REQUEST:
-
+            return { loading: true, movies: []}
         case ACTIONS.GET_DATA:
+            return { ...state, loading: false, movies: action.payload.movies, nominatedMovies: [] }
+        case ACTIONS.NOMINATE_MOVIE:
+                return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
+        case ACTIONS.UNDO_NOMINATE_MOVIE:
+            return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.id !== action.payload)}
+        case ACTIONS.OPEN_BASKET:
 
-        case ACTIONS.GET_DATA:
-
-        case ACTIONS.GET_DATA:
-
-        case ACTIONS.GET_DATA:
-
-        case ACTIONS.GET_DATA:
-
+        case ACTIONS.ERROR:
+            return { ...state, loading: false, error: action.payload.error, movies: [] }
         default:
     }
 }
@@ -61,15 +62,30 @@ export const MovieProvider = ({ children }) => {
                 page: 1
             }
         }).then(res => {
-            console.log(res)
-            // dispatch({ type: ACTIONS.GET_DATA, payload: { movies: res }})
+            console.log(res.data.results)
+            dispatch({ type: ACTIONS.GET_DATA, payload: { movies: res.data.results }})
         }).catch(e => {
             dispatch({ type: ACTIONS.ERROR, payload: { error: e }})
         })
     }, [])
 
+    // Actions
+    const nominateMovie = (movie) => {
+        dispatch({
+            type: ACTIONS.NOMINATE_MOVIE,
+            payload: movie
+        })
+    }
+
+    const undoNominateMovie = (id) => {
+        dispatch({
+            type: ACTIONS.UNDO_NOMINATE_MOVIE,
+            payload: id
+        })
+    }
+
     return (
-        <MovieContext.Provider value={{ movies: state.movies }}>
+        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, nominateMovie, undoNominateMovie }}>
             { children }
         </MovieContext.Provider>
     );

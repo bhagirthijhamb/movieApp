@@ -1,6 +1,7 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import MovieResults from './MovieResults';
 
 const Main = props => {
     return (
@@ -41,6 +42,7 @@ const Main = props => {
                     </div>
                 </div>
             </section>
+            <MovieResults />
         </main>
     )
 }

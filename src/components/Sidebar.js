@@ -1,17 +1,22 @@
 import React, { useContext } from 'react';
 import { MovieContext } from './../MovieContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFilm } from '@fortawesome/free-solid-svg-icons';
+import { faFilm, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 
 const SideBar = () => {
-    const { nominatedMovies, deleteMovie } = useContext(MovieContext);
+    const { nominatedMovies, basketOpen, deleteMovie, toggleBasket } = useContext(MovieContext);
 
     console.log(nominatedMovies);
 
     return(
-        <div className="nominatedMovies_overlay">
+        <div>
+        {basketOpen &&
+            // <div className="nominatedMovies_overlay">
         <section className="nominatedMovies_container">
+            <span className="close_nominatedMovies">
+                <FontAwesomeIcon icon={faWindowClose} className="close_icon" onClick={toggleBasket}/>
+            </span>
             <h2>Nominee List</h2>
             <ul className="nominatedMovies_movieList">
                 {nominatedMovies ? nominatedMovies.map(movie => (
@@ -34,7 +39,9 @@ const SideBar = () => {
                 )) : <div></div>}
             </ul>
         </section>
-        </div>
+        // </div>
+    }
+    </div>
     )
 }
 

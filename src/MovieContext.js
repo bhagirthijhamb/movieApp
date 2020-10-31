@@ -31,8 +31,8 @@ const reducer = (state, action) => {
                 return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
         case ACTIONS.UNDO_NOMINATE_MOVIE:
             return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.id !== action.payload)}
-        case ACTIONS.OPEN_BASKET:
-
+        case ACTIONS.TOGGLE_BASKET:
+            return { ...state, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: !state.basketOpen }
         case ACTIONS.ERROR:
             return { ...state, loading: false, error: action.payload.error, movies: [] }
         default:
@@ -86,9 +86,18 @@ export const MovieProvider = ({ children }) => {
     
     useEffect(() => {
         console.log(state.nominatedMovies)
-        saveNominatedMovies()        
+        saveNominatedMovies()   
+        
+        getNominatedMovies()
 
     }, [state.nominatedMovies])
+
+    const getNominatedMovies = () => {
+        const movies = localStorage.getItem('nominatedMovies');
+        console.log(movies);
+    }
+
+
 
     const undoNominateMovie = (id) => {
         dispatch({
@@ -104,7 +113,7 @@ export const MovieProvider = ({ children }) => {
     }
 
     return (
-        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, nominateMovie, undoNominateMovie, toggleBasket }}>
+        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominateMovie, undoNominateMovie, toggleBasket }}>
             { children }
         </MovieContext.Provider>
     );

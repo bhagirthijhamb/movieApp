@@ -5,7 +5,7 @@ import { faFilm, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 
 
 const SideBar = () => {
-    const { nominatedMovies, basketOpen, deleteMovie, toggleBasket } = useContext(MovieContext);
+    const { nominatedMovies, basketOpen, undoNominateMovie, toggleBasket } = useContext(MovieContext);
 
     console.log(nominatedMovies);
 
@@ -20,7 +20,7 @@ const SideBar = () => {
             <h2>Nominee List</h2>
             <ul className="nominatedMovies_movieList">
                 {nominatedMovies ? nominatedMovies.map(movie => (
-                    <li id={movie.id} className="nominatedMovies_movieCard">
+                    <li id={movie.imdbId} className="nominatedMovies_movieCard">
                         <div className="nominatedMovies_movieThumbnail">
                             {movie.Poster ? 
                                 <img src={movie.Poster} alt="Poster of movie" className="nominatedMovies_posterSize" /> 
@@ -33,7 +33,7 @@ const SideBar = () => {
                         <div className="nominatedMovies_movieContent">
                             <p>Released on {movie.ReleaseDate}</p>
                             <h3>{movie.Title}</h3>
-                            <button id={movie.imdbId} className="">Nominate</button>
+                            <button id={movie.imdbId} className="" onClick={() => undoNominateMovie(movie.imdbId)}>Remove</button>
                         </div>
                     </li>
                 )) : <div></div>}

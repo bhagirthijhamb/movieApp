@@ -14,9 +14,10 @@ const ACTIONS = {
     MAKE_REQUEST: 'make-request',
     GET_DATA: 'get-data',
     ERROR: 'error',
-    ADD_MOVIE: 'add-movie',
-    DELTE_MOVIE: 'delete-movie',
+    NOMINATE_MOVIE: 'add-movie',
+    UNDO_NOMINATE_MOVIE: 'delete-movie',
     TOGGLE_BASKET: 'toggle-basket'
+
 }
 
 // Reducer
@@ -30,7 +31,8 @@ const reducer = (state, action) => {
             console.log('Hello')
                 return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
         case ACTIONS.UNDO_NOMINATE_MOVIE:
-            return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.id !== action.payload)}
+            console.log(action.payload, state.nominatedMovies)
+            return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.imdbId !== action.payload)}
         case ACTIONS.TOGGLE_BASKET:
             return { ...state, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: !state.basketOpen }
         case ACTIONS.ERROR:
@@ -72,7 +74,7 @@ export const MovieProvider = ({ children }) => {
     }, [])
 
     // Actions
-    const nominateMovie = async(movie) => {
+    const nominateMovie = (movie) => {
         dispatch({
             type: ACTIONS.NOMINATE_MOVIE,
             payload: movie

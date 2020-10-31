@@ -10,21 +10,22 @@ const SideBar = () => {
     console.log(nominatedMovies);
 
     return(
+        <div className="nominatedMovies_overlay">
         <section className="nominatedMovies_container">
             <h2>Nominee List</h2>
             <ul className="nominatedMovies_movieList">
                 {nominatedMovies ? nominatedMovies.map(movie => (
-                    <li id={movie.id} className="movieResults_movieCard">
-                        <div className="movieResults_movieThumbnail">
+                    <li id={movie.id} className="nominatedMovies_movieCard">
+                        <div className="nominatedMovies_movieThumbnail">
                             {movie.Poster ? 
-                                <img src={movie.Poster} alt="Poster of movie" className="posterSize" /> 
+                                <img src={movie.Poster} alt="Poster of movie" className="nominatedMovies_posterSize" /> 
                                 : 
-                                <div className="no-poster"> 
+                                <div className="nominatedMovies_no-poster"> 
                                     <FontAwesomeIcon icon={faFilm} className="movie_icon"/>
                                     <p>No poster available</p>
                                 </div>}
                         </div>
-                        <div className="movieResults_movieContent">
+                        <div className="nominatedMovies_movieContent">
                             <p>Released on {movie.ReleaseDate}</p>
                             <h3>{movie.Title}</h3>
                             <button id={movie.imdbId} className="">Nominate</button>
@@ -33,6 +34,7 @@ const SideBar = () => {
                 )) : <div></div>}
             </ul>
         </section>
+        </div>
     )
 }
 

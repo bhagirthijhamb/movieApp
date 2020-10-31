@@ -5,6 +5,7 @@ import axios from 'axios';
 const initialState = {
     movies: [],
     nominatedMovies: [],
+    basketOpen: false,
     loading: true
 }
 
@@ -15,7 +16,7 @@ const ACTIONS = {
     ERROR: 'error',
     ADD_MOVIE: 'add-movie',
     DELTE_MOVIE: 'delete-movie',
-    OPEN_BASKET: 'open-basket'
+    TOGGLE_BASKET: 'toggle-basket'
 }
 
 // Reducer
@@ -24,8 +25,9 @@ const reducer = (state, action) => {
         case ACTIONS.MAKE_REQUEST:
             return { loading: true, movies: []}
         case ACTIONS.GET_DATA:
-            return { ...state, loading: false, movies: action.payload.movies, nominatedMovies: [] }
+            return { ...state, loading: false, movies: action.payload.movies, nominatedMovies: [], basketOpen: false }
         case ACTIONS.NOMINATE_MOVIE:
+            console.log('Hello')
                 return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
         case ACTIONS.UNDO_NOMINATE_MOVIE:
             return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.id !== action.payload)}
@@ -70,12 +72,23 @@ export const MovieProvider = ({ children }) => {
     }, [])
 
     // Actions
-    const nominateMovie = (movie) => {
+    const nominateMovie = async(movie) => {
         dispatch({
             type: ACTIONS.NOMINATE_MOVIE,
             payload: movie
-        })
+        })  
     }
+    
+    const saveNominatedMovies = () => {
+        console.log(state.nominatedMovies)
+        localStorage.setItem('nominatedMovies', JSON.stringify(state.nominatedMovies))
+    }
+    
+    useEffect(() => {
+        console.log(state.nominatedMovies)
+        saveNominatedMovies()        
+
+    }, [state.nominatedMovies])
 
     const undoNominateMovie = (id) => {
         dispatch({
@@ -84,8 +97,14 @@ export const MovieProvider = ({ children }) => {
         })
     }
 
+    const toggleBasket = () => {
+        dispatch({
+            type: ACTIONS.TOGGLE_BASKET
+        })
+    }
+
     return (
-        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, nominateMovie, undoNominateMovie }}>
+        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, nominateMovie, undoNominateMovie, toggleBasket }}>
             { children }
         </MovieContext.Provider>
     );

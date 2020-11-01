@@ -2,21 +2,51 @@ import React, { useContext } from 'react';
 import { MovieContext } from './../MovieContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
+
+
 
 const MovieResults = () => {
-    const { movies, nominateMovie, undoNominateMovie } = useContext(MovieContext);
-    // console.log(movie.poster_path)
+    const { movies, nominateMovie, undoNominateMovie, nominatedMovies } = useContext(MovieContext);
+
+    let totalMovies;
+
+    if(nominatedMovies && nominatedMovies.length === 5){
+        totalMovies = nominatedMovies.length
+    }
+
+    // async function checkCountMovies(nominatedMovie){
+    //     const count = await nominateMovie(nominatedMovie);
+    //     const result = await count;
+    //     // return count;
+
+    // }
 
     const handleNominate = (movie) => {
-        console.log(movie)
-        const nominatedMovie = {
-            Poster: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`,
-            ReleaseDate: movie.release_date,
-            Title: movie.original_title,
-            imdbId: movie.id
+
+        if(nominatedMovies.length < 5){
+            const nominatedMovie = {
+                Poster: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`,
+                ReleaseDate: movie.release_date,
+                Title: movie.original_title,
+                imdbId: movie.id
+            }
+    
+            // checkCountMovies(nominatedMovie);
+            // console.log(nominatedMovies.length);
+            nominateMovie(nominatedMovie);
+
+            if(nominatedMovies.length === 5){
+                swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
+            } 
+        } 
+        
+        else {
+            swal(" 🥳 Congratulations !", "You have  already nominated 5 movies", "error")
         }
 
-        nominateMovie(nominatedMovie);
+
+        
     }
 
     return(
@@ -48,6 +78,15 @@ const MovieResults = () => {
                     </ul>
                 </div>
             </div>
+            {/* <div>
+                {totalMovies === 5 ?
+                    swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success") : null
+                }
+            </div> */}
+            
+            {/* {totalMovies === 5 ? */}
+            
+            
         </section>
     )
 }

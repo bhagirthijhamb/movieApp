@@ -2,12 +2,18 @@ import React, { useContext } from 'react';
 import { MovieContext } from './../MovieContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm, faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import swal from 'sweetalert';
+
 
 
 const SideBar = () => {
     const { nominatedMovies, basketOpen, undoNominateMovie, toggleBasket } = useContext(MovieContext);
 
     console.log(nominatedMovies);
+
+    if(nominatedMovies && nominatedMovies.length === 5){
+        swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
+    }
 
     return(
         <div>
@@ -41,6 +47,7 @@ const SideBar = () => {
         </section>
         // </div>
     }
+
     </div>
     )
 }

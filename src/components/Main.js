@@ -2,12 +2,20 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import MovieResults from './MovieResults';
+import { useState, useContext } from 'react';
+import { MovieContext } from '../MovieContext';
 
 
 
 const Main = props => {
+    const [movie, setMovie] = useState('');
+    const {searchMovie} = useContext(MovieContext);
 
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        console.log(movie)
+        searchMovie(movie);
+    }
     return (
         <main>
             <section>
@@ -35,9 +43,9 @@ const Main = props => {
                                     <p>Once you're satisfied with your nominees list, you're done!</p>
                                 </li>
                             </ul>
-                            <form action="inout">
-                                <label htmlFor="searchMovie">Search Movie</label>
-                                <input type="search" id="searchMovie" name="searchMovie" placeholder="Enter your movie title..." required value/>
+                            <form action="inout" onSubmit={handleSubmit}>
+                                <label htmlFor="movie">Search Movie</label>
+                                <input value={movie} type="text" id="movie" onChange={(e) => setMovie(e.target.value)} placeholder="Enter your movie title..." />
                                 <button type="submit" aria-label="submit search">
                                     <FontAwesomeIcon icon={faSearch} className="search_icon"/>
                                 </button>

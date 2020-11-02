@@ -3,8 +3,8 @@ import axios from 'axios';
 
 // Initial state
 const initialState = {
+    movie: '',
     movies: [],
-    // nominatedMovies: [],
     nominatedMovies: JSON.parse(localStorage.getItem('nominatedMovies')),
     nominatedMoviesFromLS: JSON.parse(localStorage.getItem('nominatedMovies')),
     basketOpen: false,
@@ -13,6 +13,7 @@ const initialState = {
 
 // Actions
 const ACTIONS = {
+    SET_SEARCH_MOVIE: 'set-search-movie',
     MAKE_REQUEST: 'make-request',
     GET_DATA: 'get-data',
     ERROR: 'error',
@@ -26,6 +27,8 @@ const ACTIONS = {
 // Reducer
 const reducer = (state, action) => {
     switch(action.type){
+        case ACTIONS.SET_SEARCH_MOVIE:
+            return { ...state, movie: action.payload }
         case ACTIONS.MAKE_REQUEST:
             return { loading: true, movies: []}
         case ACTIONS.GET_DATA:
@@ -66,7 +69,7 @@ export const MovieProvider = ({ children }) => {
                 api_key: "f012df5d63927931e82fe659a8aaa3ac",
                 language: "en-US",
                 // query: movie_name,
-                query: 'crawl',
+                query: state.movie,
                 sort_by: "popularity.desc",
                 include_adult: "false",
                 include_video: "false",
@@ -78,9 +81,16 @@ export const MovieProvider = ({ children }) => {
         }).catch(e => {
             dispatch({ type: ACTIONS.ERROR, payload: { error: e }})
         })
-    }, [])
+    }, [state.movie])
 
     // Actions
+    const searchMovie = (searchMovie) => {
+        dispatch({
+            type: ACTIONS.SET_SEARCH_MOVIE,
+            payload: searchMovie
+        })
+    }
+
     const nominateMovie = (movie) => {
         dispatch({
             type: ACTIONS.NOMINATE_MOVIE,
@@ -116,7 +126,7 @@ export const MovieProvider = ({ children }) => {
     }
 
     return (
-        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominatedMoviesFromLS: state.nominatedMoviesFromLS, nominateMovie, undoNominateMovie, toggleBasket, addToLocalStorage, getFromLocalStorage }}>
+        <MovieContext.Provider value={{ movie: state.movie, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominatedMoviesFromLS: state.nominatedMoviesFromLS, searchMovie, nominateMovie, undoNominateMovie, toggleBasket, addToLocalStorage, getFromLocalStorage }}>
             { children }
         </MovieContext.Provider>
     );

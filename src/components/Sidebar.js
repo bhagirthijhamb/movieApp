@@ -8,15 +8,43 @@ import { useEffect } from 'react';
 
 
 const SideBar = () => {
-    const { nominatedMovies, basketOpen, undoNominateMovie, toggleBasket } = useContext(MovieContext);
+
+    const { nominatedMovies, nominateMovie, nominatedMoviesInLS, basketOpen, undoNominateMovie, toggleBasket, getFromLocalStorage } = useContext(MovieContext);
+    
+    let nominatedMoviesFromLS = JSON.parse(localStorage.getItem('nominatedMovies'));
+
+    
+    const getNominatedMovies = () => {
+        if(localStorage.hasOwnProperty('nominatedMovies')){
+            return JSON.parse(localStorage.getItem('nominatedMovies'))
+        } else {
+            return [];
+        }
+    }
+    
 
     console.log(nominatedMovies);
-
+    
     useEffect(() => {
-        if(nominatedMovies && nominatedMovies.length === 5){
+        if(nominatedMovies && basketOpen === false && nominatedMovies.length === 5){
             swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
         }
+        console.log('IN LS', nominatedMovies);
+
+        // nominatedMoviesFromLS = getNominatedMovies();
+        // getFromLocalStorage(nominatedMoviesFromLS);
+
     }, [nominatedMovies])
+
+    useEffect(() => {
+        if(basketOpen){
+            nominatedMoviesFromLS = getNominatedMovies();
+            console.log('FROM LS', nominatedMoviesFromLS);
+        }
+
+        getFromLocalStorage(nominatedMoviesFromLS);
+    }, [basketOpen])
+
 
     return(
         <div>
@@ -28,7 +56,7 @@ const SideBar = () => {
             </span>
             <h2>Nominee List</h2>
             <ul className="nominatedMovies_movieList">
-                {nominatedMovies ? nominatedMovies.map(movie => (
+                {nominatedMoviesFromLS ? nominatedMoviesFromLS.map(movie => (
                     <li id={movie.imdbId} className="nominatedMovies_movieCard">
                         <div className="nominatedMovies_movieThumbnail">
                             {movie.Poster ? 

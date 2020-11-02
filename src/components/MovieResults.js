@@ -3,21 +3,36 @@ import { MovieContext } from './../MovieContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
+import { useEffect } from 'react';
 
 
 
 const MovieResults = () => {
-    const { movies, nominateMovie, undoNominateMovie, nominatedMovies } = useContext(MovieContext);
+    const { movies, nominateMovie, nominatedMoviesInLS, nominatedMoviesFromLS, nominatedMovies, addToLocalStorage } = useContext(MovieContext);
 
-    let totalMovies;
+    // let totalMovies;
 
-    if(nominatedMovies && nominatedMovies.length === 5){
-        totalMovies = nominatedMovies.length
-    }
+    // if(nominatedMovies && nominatedMovies.length === 5){
+    //     totalMovies = nominatedMovies.length
+    // }
+
+    useEffect(() => {
+        if( nominatedMovies && nominatedMovies.length > 0){
+        localStorage.setItem('nominatedMovies', JSON.stringify(nominatedMovies));
+        }
+        addToLocalStorage(nominatedMovies)
+    }, [nominatedMovies])
+
+    useEffect(() => {
+        if( nominatedMoviesFromLS && nominatedMoviesFromLS.length >= 0){
+        localStorage.setItem('nominatedMovies', JSON.stringify(nominatedMoviesFromLS));
+        }
+        addToLocalStorage(nominatedMoviesFromLS)
+    }, [nominatedMoviesFromLS])
 
     const handleNominate = (movie) => {
 
-        if(nominatedMovies.length < 5){
+        if(nominatedMoviesFromLS.length < 5){
             const nominatedMovie = {
                 Poster: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`,
                 ReleaseDate: movie.release_date,
@@ -32,6 +47,8 @@ const MovieResults = () => {
             swal(" Sorry !", "You have  already nominated 5 movies", "error")
         }
     }
+
+
 
     let nominatedMoviesIds;
 

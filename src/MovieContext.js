@@ -4,7 +4,9 @@ import axios from 'axios';
 // Initial state
 const initialState = {
     movies: [],
-    nominatedMovies: [],
+    // nominatedMovies: [],
+    nominatedMovies: JSON.parse(localStorage.getItem('nominatedMovies')),
+    nominatedMoviesFromLS: JSON.parse(localStorage.getItem('nominatedMovies')),
     basketOpen: false,
     loading: true
 }
@@ -16,8 +18,9 @@ const ACTIONS = {
     ERROR: 'error',
     NOMINATE_MOVIE: 'add-movie',
     UNDO_NOMINATE_MOVIE: 'delete-movie',
-    TOGGLE_BASKET: 'toggle-basket'
-
+    TOGGLE_BASKET: 'toggle-basket',
+    ADD_TO_LOCAL_STORAGE: 'add-to-local-storage',
+    GET_FROM_LS: 'get-from-LS'
 }
 
 // Reducer
@@ -29,14 +32,18 @@ const reducer = (state, action) => {
             return { ...state, loading: false, movies: action.payload.movies, nominatedMovies: [], basketOpen: false }
         case ACTIONS.NOMINATE_MOVIE:
             console.log('Hello')
-                return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
+            return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
         case ACTIONS.UNDO_NOMINATE_MOVIE:
-            console.log(action.payload, state.nominatedMovies)
-            return { ...state, nominatedMovies: state.nominatedMovies.filter(movie => movie.imdbId !== action.payload)}
+            console.log(action.payload, state.nominatedMovies, state.nominatedMoviesInLS)
+            return { ...state, nominatedMoviesFromLS: state.nominatedMoviesFromLS.filter(movie => movie.imdbId !== action.payload)}
         case ACTIONS.TOGGLE_BASKET:
             return { ...state, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: !state.basketOpen }
+        case ACTIONS.ADD_TO_LOCAL_STORAGE:
+            return { ...state, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominatedMovies: action.payload}
         case ACTIONS.ERROR:
             return { ...state, loading: false, error: action.payload.error, movies: [] }
+        case ACTIONS.GET_FROM_LS:
+            return {...state, movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominatedMoviesFromLS: action.payload }
         default:
     }
 }
@@ -80,26 +87,6 @@ export const MovieProvider = ({ children }) => {
             payload: movie
         })  
     }
-    
-    const saveNominatedMovies = () => {
-        console.log(state.nominatedMovies)
-        localStorage.setItem('nominatedMovies', JSON.stringify(state.nominatedMovies))
-    }
-    
-    useEffect(() => {
-        console.log(state.nominatedMovies)
-        saveNominatedMovies()   
-        
-        getNominatedMovies()
-
-    }, [state.nominatedMovies])
-
-    const getNominatedMovies = () => {
-        const movies = localStorage.getItem('nominatedMovies');
-        console.log(movies);
-    }
-
-
 
     const undoNominateMovie = (id) => {
         dispatch({
@@ -114,8 +101,22 @@ export const MovieProvider = ({ children }) => {
         })
     }
 
+    const addToLocalStorage = (nominatedMovies) => {
+        dispatch({
+            type: ACTIONS.ADD_TO_LOCAL_STORAGE,
+            payload: nominatedMovies
+        })
+    }
+
+    const getFromLocalStorage = (moviesFromLS) => {
+        dispatch({
+            type: ACTIONS.GET_FROM_LS,
+            payload: moviesFromLS
+        })
+    }
+
     return (
-        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominateMovie, undoNominateMovie, toggleBasket }}>
+        <MovieContext.Provider value={{ movies: state.movies, nominatedMovies: state.nominatedMovies, basketOpen: state.basketOpen, nominatedMoviesFromLS: state.nominatedMoviesFromLS, nominateMovie, undoNominateMovie, toggleBasket, addToLocalStorage, getFromLocalStorage }}>
             { children }
         </MovieContext.Provider>
     );

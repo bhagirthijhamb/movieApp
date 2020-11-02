@@ -3,6 +3,7 @@ import { MovieContext } from './../MovieContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilm, faWindowClose } from '@fortawesome/free-solid-svg-icons';
 import swal from 'sweetalert';
+import { useEffect } from 'react';
 
 
 
@@ -11,9 +12,11 @@ const SideBar = () => {
 
     console.log(nominatedMovies);
 
-    if(nominatedMovies && nominatedMovies.length === 5){
-        swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
-    }
+    useEffect(() => {
+        if(nominatedMovies && nominatedMovies.length === 5){
+            swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
+        }
+    }, [nominatedMovies])
 
     return(
         <div>

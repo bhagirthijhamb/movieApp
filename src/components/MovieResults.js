@@ -15,13 +15,6 @@ const MovieResults = () => {
         totalMovies = nominatedMovies.length
     }
 
-    // async function checkCountMovies(nominatedMovie){
-    //     const count = await nominateMovie(nominatedMovie);
-    //     const result = await count;
-    //     // return count;
-
-    // }
-
     const handleNominate = (movie) => {
 
         if(nominatedMovies.length < 5){
@@ -32,21 +25,19 @@ const MovieResults = () => {
                 imdbId: movie.id
             }
     
-            // checkCountMovies(nominatedMovie);
-            // console.log(nominatedMovies.length);
             nominateMovie(nominatedMovie);
-
-            if(nominatedMovies.length === 5){
-                swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
-            } 
         } 
         
         else {
-            swal(" 🥳 Congratulations !", "You have  already nominated 5 movies", "error")
+            swal(" Sorry !", "You have  already nominated 5 movies", "error")
         }
+    }
 
+    let nominatedMoviesIds;
 
-        
+    if(nominatedMovies) {
+        nominatedMoviesIds = nominatedMovies.map(movie => movie.imdbId)
+        console.log(nominatedMoviesIds);
     }
 
     return(
@@ -71,22 +62,20 @@ const MovieResults = () => {
                                     <h3>{movie.original_title}</h3>
                                 </div>
                                 <div className="movieResults_btnContainer">
-                                    <button id={movie.id} className="" onClick={() => handleNominate(movie)}>Nominate</button>
+                                    {/* <button id={movie.id} className="" onClick={() => handleNominate(movie)}>Nominate</button> */}
+
+                                    {nominatedMoviesIds.length > 0 && nominatedMoviesIds.indexOf(movie.id) !== -1
+                                    ? 
+                                    <button disabled id={movie.id} className="" >Nominated</button>
+                                    : 
+                                    <button id={movie.id} className="" onClick={() => handleNominate(movie)}>Nominate</button>      
+                                    }
                                 </div>
                             </li>
                         ))}
                     </ul>
                 </div>
             </div>
-            {/* <div>
-                {totalMovies === 5 ?
-                    swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success") : null
-                }
-            </div> */}
-            
-            {/* {totalMovies === 5 ? */}
-            
-            
         </section>
     )
 }

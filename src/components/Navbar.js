@@ -6,14 +6,16 @@ import { MovieContext } from './../MovieContext';
 
 
 const Navbar = (props) => {
-    const { nominatedMovies, deleteMovie, toggleBasket } = useContext(MovieContext);
+    const { nominatedMoviesFromLS, nominatedMovies, toggleBasket } = useContext(MovieContext);
 
     return (
         <div className="fixed_container">
             <nav>
                 <div className="wrapper">
-                    <button>
+                    <button className="movie-button">
                         <FontAwesomeIcon icon={faFilm} className="movie_icon" onClick={toggleBasket} />
+                        {/* <span className="nomineeNotification">{nominatedMoviesFromLS && nominatedMoviesFromLS.length}</span> */}
+                        <span className="nomineeNotification">{nominatedMovies && nominatedMovies.length}</span>
                     </button>
                 </div>
             </nav>

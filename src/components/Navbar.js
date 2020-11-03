@@ -6,7 +6,10 @@ import { MovieContext } from './../MovieContext';
 
 
 const Navbar = (props) => {
-    const { nominatedMoviesFromLS, nominatedMovies, toggleBasket } = useContext(MovieContext);
+
+    let nominatedMoviesFromLS = JSON.parse(localStorage.getItem('nominatedMovies'));
+
+    const { toggleBasket } = useContext(MovieContext);
 
     return (
         <div className="fixed_container">
@@ -14,8 +17,7 @@ const Navbar = (props) => {
                 <div className="wrapper">
                     <button className="movie-button">
                         <FontAwesomeIcon icon={faFilm} className="movie_icon" onClick={toggleBasket} />
-                        {/* <span className="nomineeNotification">{nominatedMoviesFromLS && nominatedMoviesFromLS.length}</span> */}
-                        <span className="nomineeNotification">{nominatedMovies && nominatedMovies.length}</span>
+                        <span className="nomineeNotification">{nominatedMoviesFromLS && nominatedMoviesFromLS.length}</span>
                     </button>
                 </div>
             </nav>

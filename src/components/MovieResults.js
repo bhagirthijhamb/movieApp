@@ -30,8 +30,8 @@ const MovieResults = () => {
     // }, [nominatedMovies])
 
     const handleNominate = (movie) => {
-        // if(!basketOpen){
-            if(nominatedMoviesFromLS.length < 5){
+        if(!basketOpen){
+            if(nominatedMovies.length < 5){
                 const nominatedMovie = {
                     Poster: `http://image.tmdb.org/t/p/w500/${movie.poster_path}`,
                     ReleaseDate: movie.release_date,
@@ -40,14 +40,14 @@ const MovieResults = () => {
                 }
                 nominateMovie(nominatedMovie);
 
-                if(nominatedMoviesFromLS.length === 4){
+                if(nominatedMovies.length === 4){
                     swal(" 🥳 Congratulations !", "You have nominated 5 movies", "success")
                 }
             } 
             else {
                 swal(" Sorry !", "You have  already nominated 5 movies", "error")
             }
-        // }
+        }
     }
 
     let nominatedMoviesIds;

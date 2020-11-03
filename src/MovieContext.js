@@ -34,7 +34,6 @@ const reducer = (state, action) => {
         case ACTIONS.GET_DATA:
             return { ...state, loading: false, movies: action.payload.movies, nominatedMovies: [], basketOpen: false }
         case ACTIONS.NOMINATE_MOVIE:
-            console.log('Hello')
             return { ...state, movies: state.movies, nominatedMovies: [action.payload, ...state.nominatedMovies]}
         case ACTIONS.UNDO_NOMINATE_MOVIE:
             console.log(action.payload, state.nominatedMovies, state.nominatedMoviesInLS)

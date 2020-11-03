@@ -1,11 +1,14 @@
 header {
     background-color: var(--primaryColor);
+    margin-top: 0;
+    padding: 2rem 0;
 }
 
 
 h1 {
     text-align: left;
     font-size: 5rem;
+    margin-top: 0;;
     letter-spacing: -3px;
     text-shadow: 6px 6px #f2cee6;
     -webkit-text-fill-color: #fff;

@@ -21,7 +21,7 @@ const Main = props => {
             <section>
                 <div className="searchMovie_container">
                     <div className="searchMovie_backgroundPattern">
-                        <div className="wrapper">
+                        <div className="wrapper search-area">
                             <h2>Search Movie</h2>
 
                             <ul className="instructions">

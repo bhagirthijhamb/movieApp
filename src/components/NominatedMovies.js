@@ -27,7 +27,6 @@ const NominatedMovies = () => {
     useEffect(() => {
         if(basketOpen){
             nominatedMoviesFromLS = getNominatedMovies();
-            console.log('FROM LS', nominatedMoviesFromLS);
         }
 
         getFromLocalStorage(nominatedMoviesFromLS);

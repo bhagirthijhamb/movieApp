@@ -59,7 +59,8 @@ const MovieResults = () => {
 
     return(
         <section>
-            <div className="movieResults_container">
+            {movies && movies.length > 0 && 
+                <div className="movieResults_container">
                 <div className="wrapper movieResults_gridContainer">
                     <h2>Pick Your Flicks</h2>
                     {/* {!basketOpen &&  */}
@@ -93,6 +94,7 @@ const MovieResults = () => {
                     {/* } */}
                 </div>
             </div>
+            }
         </section>
     )
 }

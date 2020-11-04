@@ -21,7 +21,7 @@ const Main = props => {
             <section>
                 <div className="searchMovie_container">
                     <div className="searchMovie_backgroundPattern">
-                        <div className="wrapper search-area">
+                        <div className="wrapper searchMovie-area" id="search-area">
                             <h2>Search Movie</h2>
 
                             <ul className="instructions">
@@ -44,7 +44,7 @@ const Main = props => {
                                 </li>
                             </ul>
                             <form action="inout" onSubmit={handleSubmit}>
-                                <label htmlFor="movie">Search Movie</label>
+                                <label htmlFor="movie" className="srOnly">Search Movie</label>
                                 <input value={movie} type="text" id="movie" onChange={(e) => setMovie(e.target.value)} placeholder="Enter your movie title..." />
                                 <button type="submit" aria-label="submit search">
                                     <FontAwesomeIcon icon={faSearch} className="search_icon"/>

@@ -2,6 +2,36 @@ header {
     background-color: var(--primaryColor);
     margin-top: 0;
     padding: 2rem 0;
+
+    .voteNow-btn {
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-top: 2rem;
+        color: #34444c;
+        border: 2px solid #34444c;
+        border-radius: 5px;
+        font-size: .9rem;
+        background-color: #f3f3f6;
+        box-shadow: 0 5px 0 0 #e6e6e8;
+        padding: .75rem 1.5rem;
+        transition: transform .15s ease-out, box-shadow .15s ease-out;
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+    }
+
+    .voteNow-btn:hover {
+        transform: translateY(2px);
+        box-shadow: 0 4px 0 0 #e6e6e8;
+    }
+
+
+    // .voteNow-btn:active {
+    //     transform: translateY(4px);
+    //     box-shadow: 0 2px 0 0 #e6e6e8;
+    // }
 }
 
 
